@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 SYLEAM Info Services
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <template id="ogone_acquirer_button" inherit_id="payment_ogone.ogone_acquirer_button">
+        <xpath expr="//input[@name='AMOUNT']" position="after">
+            <input type="hidden" name="FLAG3D" t-att-value="FLAG3D"/>
+        </xpath>
+    </template>
+</odoo>
