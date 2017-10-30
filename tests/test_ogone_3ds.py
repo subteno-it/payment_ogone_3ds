@@ -36,3 +36,21 @@ class TestOgone3Ds(common.TransactionCase):
             '<input type="hidden" name="FLAG3D" value="Y"/>', html)
         self.assertNotIn(
             '<input type="hidden" name="FLAG3D"/>', html)
+
+    def test_minimum_amount_not_reached(self):
+        """ Test to render the form when the minimum amount is not reached """
+        self.acquirer.ogone_3ds_minimum_amount = 250
+        html = self.acquirer.render(None, 164.23, None)
+        self.assertIn(
+            '<input type="hidden" name="FLAG3D"/>', html)
+        self.assertNotIn(
+            '<input type="hidden" name="FLAG3D" value="Y"/>', html)
+
+    def test_minimum_amount_reached(self):
+        """ Test to render the form when the minimum amount is reached """
+        self.acquirer.ogone_3ds_minimum_amount = 250
+        html = self.acquirer.render(None, 813.34, None)
+        self.assertIn(
+            '<input type="hidden" name="FLAG3D" value="Y"/>', html)
+        self.assertNotIn(
+            '<input type="hidden" name="FLAG3D"/>', html)

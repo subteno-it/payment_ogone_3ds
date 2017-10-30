@@ -11,16 +11,31 @@ class PaymentAcquirer(models.Model):
     ogone_force_3ds = fields.Boolean(
         string='Force 3DS',
         help='Check this box to force the 3DS activation on all payments.')
+    ogone_3ds_minimum_amount = fields.Float(
+        string='Force 3DS',
+        help='Minimum amount needed to activate the 3D Secure on a payment.\n'
+        '0 = No 3DS activation depending on the amount.'
+    )
+
+    def _check_activate_3ds(self, values):
+        # The amount is sometimes passed upper or lower case
+        amount = values.get('amount', 0)
+        if 'AMOUNT' in values:
+            amount = float(values['AMOUNT']) / 100
+
+        return 'enable_3dsecure' in self.env.context or \
+            self.ogone_force_3ds or \
+            (0 < self.ogone_3ds_minimum_amount <= amount)
 
     def _ogone_generate_shasign(self, inout, values):
-        if 'enable_3dsecure' in self.env.context or self.ogone_force_3ds:
+        if self._check_activate_3ds(values):
             values['FLAG3D'] = 'Y'
 
         return super(PaymentAcquirer, self)._ogone_generate_shasign(
             inout, values)
 
     def ogone_form_generate_values(self, values):
-        if 'enable_3dsecure' in self.env.context or self.ogone_force_3ds:
+        if self._check_activate_3ds(values):
             values['FLAG3D'] = 'Y'
 
         return super(PaymentAcquirer, self).ogone_form_generate_values(
