@@ -15,7 +15,7 @@ class TestOgone3Ds(common.TransactionCase):
         """ Test to render the form without 3ds """
         html = self.acquirer.render(None, 164.23, None)
         self.assertIn(
-            '<input type="hidden" name="FLAG3D"/>', html)
+            '<input type="hidden" name="FLAG3D" value="N"/>', html)
         self.assertNotIn(
             '<input type="hidden" name="FLAG3D" value="Y"/>', html)
 
@@ -26,7 +26,7 @@ class TestOgone3Ds(common.TransactionCase):
         self.assertIn(
             '<input type="hidden" name="FLAG3D" value="Y"/>', html)
         self.assertNotIn(
-            '<input type="hidden" name="FLAG3D"/>', html)
+            '<input type="hidden" name="FLAG3D" value="N"/>', html)
 
     def test_render_forced_3ds(self):
         """ Test to render the form with forced 3ds """
@@ -35,14 +35,14 @@ class TestOgone3Ds(common.TransactionCase):
         self.assertIn(
             '<input type="hidden" name="FLAG3D" value="Y"/>', html)
         self.assertNotIn(
-            '<input type="hidden" name="FLAG3D"/>', html)
+            '<input type="hidden" name="FLAG3D" value="N"/>', html)
 
     def test_minimum_amount_not_reached(self):
         """ Test to render the form when the minimum amount is not reached """
         self.acquirer.ogone_3ds_minimum_amount = 250
         html = self.acquirer.render(None, 164.23, None)
         self.assertIn(
-            '<input type="hidden" name="FLAG3D"/>', html)
+            '<input type="hidden" name="FLAG3D" value="N"/>', html)
         self.assertNotIn(
             '<input type="hidden" name="FLAG3D" value="Y"/>', html)
 
@@ -53,4 +53,4 @@ class TestOgone3Ds(common.TransactionCase):
         self.assertIn(
             '<input type="hidden" name="FLAG3D" value="Y"/>', html)
         self.assertNotIn(
-            '<input type="hidden" name="FLAG3D"/>', html)
+            '<input type="hidden" name="FLAG3D" value="N"/>', html)

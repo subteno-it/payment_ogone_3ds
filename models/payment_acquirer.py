@@ -28,15 +28,13 @@ class PaymentAcquirer(models.Model):
             (0 < self.ogone_3ds_minimum_amount <= amount)
 
     def _ogone_generate_shasign(self, inout, values):
-        if self._check_activate_3ds(values):
-            values['FLAG3D'] = 'Y'
+        values['FLAG3D'] = 'Y' if self._check_activate_3ds(values) else 'N'
 
         return super(PaymentAcquirer, self)._ogone_generate_shasign(
             inout, values)
 
     def ogone_form_generate_values(self, values):
-        if self._check_activate_3ds(values):
-            values['FLAG3D'] = 'Y'
+        values['FLAG3D'] = 'Y' if self._check_activate_3ds(values) else 'N'
 
         return super(PaymentAcquirer, self).ogone_form_generate_values(
             values)
