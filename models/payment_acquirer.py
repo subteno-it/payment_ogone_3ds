@@ -12,7 +12,7 @@ class PaymentAcquirer(models.Model):
         string='Force 3DS',
         help='Check this box to force the 3DS activation on all payments.')
     ogone_3ds_minimum_amount = fields.Float(
-        string='Force 3DS',
+        string='3DS Minimum Amount',
         help='Minimum amount needed to activate the 3D Secure on a payment.\n'
         '0 = No 3DS activation depending on the amount.'
     )
