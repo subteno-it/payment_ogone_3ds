@@ -10,6 +10,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='ogone_pspid']" position="before">
                 <field name="ogone_force_3ds"/>
+                <field name="ogone_3ds_minimum_amount"/>
             </xpath>
         </field>
     </record>
